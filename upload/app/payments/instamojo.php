@@ -45,8 +45,8 @@ if (defined('PAYMENT_NOTIFICATION')) {
         // Get Instamojo details from backend
         instamojo_error_logger("Callback called with Payment ID: " . $payment_id);
         $processor_details = fn_get_processor_data_by_name('instamojo.php');
-        instamojo_error_logger("Instamojo processor details from DB: ". print_r($pdata, true));
         $pdata = db_get_row("SELECT * FROM ?:payments WHERE processor_id = ?i", $processor_details['processor_id']);
+        instamojo_error_logger("Instamojo processor details from DB: ". print_r($pdata, true));
         $processor_details['processor_params'] = unserialize($pdata['processor_params']);
         instamojo_error_logger("Instamojo's settings from DB: ". print_r($processor_details['processor_params'], true));
         $api_key = $processor_details['processor_params']['instamojo_api_key'];
@@ -55,7 +55,7 @@ if (defined('PAYMENT_NOTIFICATION')) {
         # Callback Instamojo
         $response = check_instamojo_payment_status($api_key, $auth_token, $payment_id);
         instamojo_error_logger ("$api_key | $auth_token | $custom_field");
-        instamojo_error_logger ("Response from Instamojo is: " . print_r($esponse, true));
+        instamojo_error_logger ("Response from Instamojo is: " . print_r($response, true));
         instamojo_error_logger (print_r($response, true));
         
         $pp_response = array();
