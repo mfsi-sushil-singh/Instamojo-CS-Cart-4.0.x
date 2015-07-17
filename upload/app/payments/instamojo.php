@@ -180,6 +180,8 @@ function check_instamojo_payment_status($api_key, $auth_token, $payment_id){
     $error_number = curl_errno($ch);
     $error_message = curl_error($ch);
     curl_close($ch);
+    instamojo_error_logger("Error number from cURL: $error_number");
+    instamojo_error_logger("Error message from cURL: $error_message");
     $response_obj = json_decode($response, true);
     instamojo_error_logger("Response from CURL is: " . print_r($response_obj, true));
     if($response_obj['success'] == false) {
