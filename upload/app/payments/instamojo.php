@@ -152,10 +152,13 @@ if (defined('PAYMENT_NOTIFICATION')) {
     $str = hash_hmac("sha1", implode("|", $data), $private_salt);
 
     instamojo_error_logger("Signature is: $str");
-
+    
+    //Encode phone number
+    $encoded_phone = urlencode($phone);
+    
     $link= url_handler($payment_url) . "intent=buy&emded=form&";
     $link.="data_readonly=data_email&data_readonly=data_amount&data_readonly=data_phone&data_readonly=data_name&data_readonly={$custom_field}&data_hidden={$custom_field}";
-    $link.="&data_amount=$amount&data_name=$name&data_email=$email&data_phone=$phone&{$custom_field}=$order_id&data_sign=$str";
+    $link.="&data_amount=$amount&data_name=$name&data_email=$email&data_phone=$encoded_phone&{$custom_field}=$order_id&data_sign=$str";
 
     instamojo_error_logger("Marking Order: $order_id as open before redirecting to Instamojo for payment.");
 
